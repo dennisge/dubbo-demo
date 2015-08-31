@@ -18,26 +18,38 @@ package com.alibaba.dubbo.demo.consumer;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.springframework.stereotype.Component;
+
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.alibaba.dubbo.demo.DemoService;
+import com.alibaba.dubbo.demo.HeroojService;
 
+@Component
 public class DemoAction {
-    
-    private DemoService demoService;
 
-    public void setDemoService(DemoService demoService) {
-        this.demoService = demoService;
-    }
+	private DemoService demoService;
+
+	@Reference(version="1.0.0")
+	private HeroojService heroojService;
+
+	public void setDemoService(DemoService demoService) {
+		this.demoService = demoService;
+	}
 
 	public void start() throws Exception {
-        for (int i = 0; i < Integer.MAX_VALUE; i ++) {
-            try {
-            	String hello = demoService.sayHello("world" + i);
-                System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] " + hello);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            Thread.sleep(2000);
-        }
+		for (int i = 0; i < Integer.MAX_VALUE; i++) {
+			try {
+				String hello = demoService.sayHello("world" + i);
+				System.out.println("[" + new SimpleDateFormat("HH:mm:ss").format(new Date()) + "] " + hello);
+
+				String one = heroojService.batalado("dennis go");
+
+				System.out.println(one);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			Thread.sleep(2000);
+		}
 	}
 
 }
